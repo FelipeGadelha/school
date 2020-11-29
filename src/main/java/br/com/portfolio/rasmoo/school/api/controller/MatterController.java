@@ -2,6 +2,8 @@ package br.com.portfolio.rasmoo.school.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,7 @@ public class MatterController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody MatterRq matterRq) {
+	public ResponseEntity<?> save(@RequestBody @Valid MatterRq matterRq) {
 		return new ResponseEntity<>(matterService.save(matterRq), HttpStatus.CREATED);
 
 		//		Matter matter = toEntity(matterRq);

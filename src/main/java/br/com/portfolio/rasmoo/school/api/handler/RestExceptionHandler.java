@@ -14,17 +14,18 @@ import br.com.portfolio.rasmoo.school.api.exception.BadRequestException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 
 	@ExceptionHandler(BadRequestException.class)
-	public ResponseEntity<BadRequestExceptionDetails<?>> handlerBadRequestException(BadRequestException bre){
+	public ResponseEntity<BadRequestExceptionDetails> handlerBadRequestException(BadRequestException bre){
 		
-//		new BadRequestExceptionDetails<>()
+		BadRequestExceptionDetails details = BadRequestExceptionDetails.builder()
+		.timestamp(LocalDateTime.now())
+		.status(HttpStatus.BAD_REQUEST.value())
+		.title("Bad Request Exception, Check the Documentation")
+		.details(bre.getMessage())
+		.developerMessage(bre.getClass().getName())
+		.build();
 		
-		return new ResponseEntity<>(new BadRequestExceptionDetails.Builder<>()
-				.timestamp(LocalDateTime.now())
-				.status(HttpStatus.BAD_REQUEST.value())
-				.title("Bad Request Exception, Check the Documentation")
-				.details(bre.getMessage())
-				.developerMessage(bre.getClass().getName())
-				.build(), HttpStatus.BAD_REQUEST);
+		System.out.println(details);
+		return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
 	}
 	
 	

@@ -1,17 +1,38 @@
 package br.com.portfolio.rasmoo.school.api.handler;
 
-public class BadRequestExceptionDetails<T extends BadRequestExceptionDetails.Builder<T>> extends ExceptionDetails<T>{
+public class BadRequestExceptionDetails extends ExceptionDetails{
 	
-	protected BadRequestExceptionDetails(Builder<T> builder) {
+	
+	public BadRequestExceptionDetails(Builder builder) {
 		super(builder);
 	}
 
-	public static class Builder<T extends BadRequestExceptionDetails.Builder<T>> extends ExceptionDetails.Builder<T> {
+	public static Builder builder() {
+        return new Builder();
+    }
+	
+	public static class Builder extends ExceptionDetails.Builder<Builder> {
 		
-		public BadRequestExceptionDetails<T> build() {
-			return new BadRequestExceptionDetails<>(this);
+		protected Builder() {
+			super();
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
 		}
 		
+		@Override
+		public BadRequestExceptionDetails build() {
+            return new BadRequestExceptionDetails(this);
+        }
 	}
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
+	
 	
 }

@@ -82,5 +82,4 @@ public class Matter implements Serializable{
 		this.frequency = frequency;
 	}
 	
-	
 }

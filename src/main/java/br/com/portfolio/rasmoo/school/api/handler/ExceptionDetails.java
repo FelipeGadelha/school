@@ -2,7 +2,7 @@ package br.com.portfolio.rasmoo.school.api.handler;
 
 import java.time.LocalDateTime;
 
-public class ExceptionDetails<T extends ExceptionDetails.Builder<T>>{
+public class ExceptionDetails{
 	
 	protected String title;
 	protected int status;
@@ -10,7 +10,9 @@ public class ExceptionDetails<T extends ExceptionDetails.Builder<T>>{
 	protected String developerMessage;
 	protected LocalDateTime timestamp;
 	
-	protected ExceptionDetails(Builder<T> builder) {
+//	public ExceptionDetails() {}
+	
+	protected ExceptionDetails(Builder<?> builder) {
 		this.title = builder.title;
 		this.status = builder.status;
 		this.details = builder.details;
@@ -18,74 +20,52 @@ public class ExceptionDetails<T extends ExceptionDetails.Builder<T>>{
 		this.timestamp = builder.timestamp;
 	}
 	
-	protected static class Builder<T extends ExceptionDetails.Builder<T>> {
+	protected ExceptionDetails() {
+	}
+
+	public static Builder builder() {
+        return new Builder() {
+            @Override
+            public Builder getThis() {
+                return this;
+            }
+        };
+    }
+
+	public abstract static class Builder<T extends Builder<T>> {
 		private String title;
 		private int status;
 		private String details;
 		private String developerMessage;
 		private LocalDateTime timestamp;
-				
+
+		public abstract T getThis();
+		
 		public T title(String title) {
 			this.title = title;
-			return (T)this;
+			return this.getThis();
 		}
 		public T status(int status) {
 			this.status = status;
-			return (T)this;
+			return this.getThis();
 		}
 		public T details(String details) {
 			this.details = details;
-			return (T)this;
+			return this.getThis();
 		}
 		public T developerMessage(String developerMessage) {
 			this.developerMessage = developerMessage;
-			return (T)this;
+			return this.getThis();
 		}
 		public T timestamp(LocalDateTime timestamp) {
 			this.timestamp = timestamp;
-			return (T)this;
+			return this.getThis();
 		}
 		
-		public ExceptionDetails<T> build() {
-			return new ExceptionDetails<>(this);
+		public ExceptionDetails build() {
+			return new ExceptionDetails(this);
 		}
-		
 	}
-	
-//	public static class ExceptionDetailsBuilder implements ExceptionBuilder<ExceptionDetailsBuilder>{
-//		private String title;
-//		private int status;
-//		private String details;
-//		private String developerMessage;
-//		private LocalDateTime timestamp;
-//
-//		public ExceptionDetailsBuilder() {}
-//		
-//		public ExceptionDetailsBuilder title(String title) {
-//			this.title = title;
-//			return this;
-//		}
-//		public ExceptionDetailsBuilder status(int status) {
-//			this.status = status;
-//			return this;
-//		}
-//		public ExceptionDetailsBuilder details(String details) {
-//			this.details = details;
-//			return this;
-//		}
-//		public ExceptionDetailsBuilder developerMessage(String developerMessage) {
-//			this.developerMessage = developerMessage;
-//			return this;
-//		}
-//		public ExceptionDetailsBuilder timestamp(LocalDateTime timestamp) {
-//			this.timestamp = timestamp;
-//			return this;
-//		}
-//		
-//		public ExceptionDetails build() {
-//			return new ExceptionDetails(this);
-//		}
-//	}
 
 	public String getTitle() {
 		return title;
@@ -106,4 +86,12 @@ public class ExceptionDetails<T extends ExceptionDetails.Builder<T>>{
 	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
+
+	@Override
+	public String toString() {
+		return "[title= " + title + ", status= " + status + ", details= " + details
+				+ ", developerMessage= " + developerMessage + ", timestamp= " + timestamp + "]";
+	}
+	
+	
 }
