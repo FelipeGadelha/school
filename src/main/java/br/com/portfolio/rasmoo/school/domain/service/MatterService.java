@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.portfolio.rasmoo.school.api.dto.MatterRq;
-import br.com.portfolio.rasmoo.school.api.dto.MatterRs;
-import br.com.portfolio.rasmoo.school.api.dto.MatterUpdateRq;
+import br.com.portfolio.rasmoo.school.api.dto.request.MatterRq;
+import br.com.portfolio.rasmoo.school.api.dto.request.MatterUpdateRq;
+import br.com.portfolio.rasmoo.school.api.dto.response.MatterRs;
 import br.com.portfolio.rasmoo.school.domain.entity.Matter;
 import br.com.portfolio.rasmoo.school.domain.projection.MatterProjection;
 import br.com.portfolio.rasmoo.school.domain.repository.MatterRepository;

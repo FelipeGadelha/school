@@ -1,7 +1,7 @@
-package br.com.portfolio.rasmoo.school.api.dto;
+package br.com.portfolio.rasmoo.school.api.dto.response;
 
-public class MatterRq {
-
+public class MatterRs {
+	
 	private String name;
 	private int hour;
 	private String code;
@@ -39,7 +39,6 @@ public class MatterRq {
 		this.frequency = frequency;
 	}
 
-	
 	
 	
 

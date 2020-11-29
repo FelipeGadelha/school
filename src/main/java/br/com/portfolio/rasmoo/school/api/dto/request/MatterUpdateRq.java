@@ -1,4 +1,4 @@
-package br.com.portfolio.rasmoo.school.api.dto;
+package br.com.portfolio.rasmoo.school.api.dto.request;
 
 public class MatterUpdateRq {
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.portfolio.rasmoo.school.api.dto.MatterRq;
-import br.com.portfolio.rasmoo.school.api.dto.MatterUpdateRq;
+import br.com.portfolio.rasmoo.school.api.dto.request.MatterRq;
+import br.com.portfolio.rasmoo.school.api.dto.request.MatterUpdateRq;
 import br.com.portfolio.rasmoo.school.domain.projection.MatterProjection;
 import br.com.portfolio.rasmoo.school.domain.service.MatterService;
 
