@@ -1,45 +1,17 @@
 package br.com.portfolio.rasmoo.school.api.handler;
 
-import java.time.LocalDateTime;
+public class BadRequestExceptionDetails<T extends BadRequestExceptionDetails.Builder<T>> extends ExceptionDetails<T>{
+	
+	protected BadRequestExceptionDetails(Builder<T> builder) {
+		super(builder);
+	}
 
-public class BadRequestExceptionDetails {
-	
-	private String title;
-	private int status;
-	private String details;
-	private String developerMessage;
-	private LocalDateTime timestamp;
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public String getDetails() {
-		return details;
-	}
-	public void setDetails(String details) {
-		this.details = details;
-	}
-	public String getDeveloperMessage() {
-		return developerMessage;
-	}
-	public void setDeveloperMessage(String developerMessage) {
-		this.developerMessage = developerMessage;
-	}
-	public LocalDateTime getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
+	public static class Builder<T extends BadRequestExceptionDetails.Builder<T>> extends ExceptionDetails.Builder<T> {
+		
+		public BadRequestExceptionDetails<T> build() {
+			return new BadRequestExceptionDetails<>(this);
+		}
+		
 	}
 	
-	
-
 }

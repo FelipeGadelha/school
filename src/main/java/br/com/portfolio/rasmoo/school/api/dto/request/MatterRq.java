@@ -1,7 +1,10 @@
 package br.com.portfolio.rasmoo.school.api.dto.request;
 
+import javax.validation.constraints.NotNull;
+
 public class MatterRq {
 
+	@NotNull
 	private String name;
 	private int hour;
 	private String code;
