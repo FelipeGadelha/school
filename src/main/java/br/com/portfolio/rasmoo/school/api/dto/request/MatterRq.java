@@ -2,12 +2,17 @@ package br.com.portfolio.rasmoo.school.api.dto.request;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.URL;
+
 public class MatterRq {
 
 	@NotNull
 	private String name;
+	@NotNull
 	private int hour;
+	@URL(message = "URL invalida")
 	private String code;
+	@NotNull
 	private int frequency;
 
 	public String getName() {

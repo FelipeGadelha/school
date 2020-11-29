@@ -61,8 +61,6 @@ public class MatterService {
 			throw new BadRequestException("This matter ID does not exist");
 		}
 	}
-	
-	
 
 	private Matter toEntity(MatterRq matterRq) {
 		return mapper.map(matterRq, Matter.class);

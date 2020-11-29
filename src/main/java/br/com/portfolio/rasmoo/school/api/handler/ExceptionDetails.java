@@ -10,8 +10,6 @@ public class ExceptionDetails{
 	protected String developerMessage;
 	protected LocalDateTime timestamp;
 	
-//	public ExceptionDetails() {}
-	
 	protected ExceptionDetails(Builder<?> builder) {
 		this.title = builder.title;
 		this.status = builder.status;
@@ -20,8 +18,8 @@ public class ExceptionDetails{
 		this.timestamp = builder.timestamp;
 	}
 	
-	protected ExceptionDetails() {
-	}
+//	protected ExceptionDetails() {
+//	}
 
 	public static Builder builder() {
         return new Builder() {
@@ -89,8 +87,8 @@ public class ExceptionDetails{
 
 	@Override
 	public String toString() {
-		return "[title= " + title + ", status= " + status + ", details= " + details
-				+ ", developerMessage= " + developerMessage + ", timestamp= " + timestamp + "]";
+		return "title= " + title + ", status= " + status + ", details= " + details
+				+ ", developerMessage= " + developerMessage + ", timestamp= " + timestamp;
 	}
 	
 	

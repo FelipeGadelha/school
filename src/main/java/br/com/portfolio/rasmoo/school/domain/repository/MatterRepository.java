@@ -27,12 +27,6 @@ public interface MatterRepository extends JpaRepository<Matter, Long>{
 //	<T> T saveMatter(Matter matter, Class<T> type);
 }
 
-
-
-
-
-
-
 //	@Modifying
 //	@Query("update User u set u.active = false where u.lastLoginDate < :date")
 //	void deactivateUsersNotLoggedInSince(@Param("date") LocalDate date);
