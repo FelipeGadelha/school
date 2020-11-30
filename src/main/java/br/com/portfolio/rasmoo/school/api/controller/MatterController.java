@@ -58,7 +58,7 @@ public class MatterController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> update(@RequestBody MatterUpdateRq matterUpdateRq) {
+	public ResponseEntity<?> update(@RequestBody @Valid MatterUpdateRq matterUpdateRq) {
 		return new ResponseEntity<>(matterService.update(matterUpdateRq), HttpStatus.OK);
 		
 //		Matter matter = toEntityUpdate(matterUpdateRq);

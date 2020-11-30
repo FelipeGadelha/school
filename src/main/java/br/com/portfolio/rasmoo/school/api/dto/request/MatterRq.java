@@ -1,18 +1,23 @@
 package br.com.portfolio.rasmoo.school.api.dto.request;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.URL;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 public class MatterRq {
 
-	@NotNull
+	@NotBlank(message = "The given name must not be blank")
 	private String name;
-	@NotNull
+	
+	@Min(value = 34, message = "Minimum of 34 hrs per matter allowed")
+	@Max(value = 120, message = "Maximum of 120 hrs per matter allowed")
 	private int hour;
-	@URL(message = "URL invalida")
+	
+	@NotBlank(message = "The given code must not be blank")
 	private String code;
-	@NotNull
+	
+	@Min(value = 1, message = "Minimum allowed once a year")
+	@Max(value = 2, message = "Maximum of 2 times per year allowed")
 	private int frequency;
 
 	public String getName() {

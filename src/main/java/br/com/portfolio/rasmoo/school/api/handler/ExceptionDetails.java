@@ -1,6 +1,6 @@
 package br.com.portfolio.rasmoo.school.api.handler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class ExceptionDetails{
 	
@@ -8,7 +8,7 @@ public class ExceptionDetails{
 	protected int status;
 	protected String details;
 	protected String developerMessage;
-	protected LocalDateTime timestamp;
+	protected OffsetDateTime timestamp;
 	
 	protected ExceptionDetails(Builder<?> builder) {
 		this.title = builder.title;
@@ -18,13 +18,10 @@ public class ExceptionDetails{
 		this.timestamp = builder.timestamp;
 	}
 	
-//	protected ExceptionDetails() {
-//	}
-
-	public static Builder builder() {
+	public static Builder<?> builder() {
         return new Builder() {
             @Override
-            public Builder getThis() {
+            public Builder<?> getThis() {
                 return this;
             }
         };
@@ -35,7 +32,7 @@ public class ExceptionDetails{
 		private int status;
 		private String details;
 		private String developerMessage;
-		private LocalDateTime timestamp;
+		private OffsetDateTime timestamp;
 
 		public abstract T getThis();
 		
@@ -55,7 +52,7 @@ public class ExceptionDetails{
 			this.developerMessage = developerMessage;
 			return this.getThis();
 		}
-		public T timestamp(LocalDateTime timestamp) {
+		public T timestamp(OffsetDateTime timestamp) {
 			this.timestamp = timestamp;
 			return this.getThis();
 		}
@@ -81,7 +78,7 @@ public class ExceptionDetails{
 		return developerMessage;
 	}
 
-	public LocalDateTime getTimestamp() {
+	public OffsetDateTime getTimestamp() {
 		return timestamp;
 	}
 
