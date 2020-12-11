@@ -11,35 +11,72 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MATTER")
-public class Matter implements Serializable{
-	
+public class Matter implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private Long id;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@Column(name = "HOUR")
 	private int hour;
-	
+
 	@Column(name = "CODE")
 	private String code;
-	
+
 	@Column(name = "FREQUENCY")
 	private int frequency;
-	
-	@Deprecated
-	public Matter() {}
 
-	public Matter(String name, int hour, String code, int frequency) {
-		this.name = name;
-		this.hour = hour;
-		this.code = code;
-		this.frequency = frequency;
+	@Deprecated
+	public Matter() {
+	}
+
+	private Matter(Builder builder) {
+		this.name = builder.name;
+		this.hour = builder.hour;
+		this.code = builder.code;
+		this.frequency = builder.frequency;
+	}
+
+	public static class Builder {
+
+		private String name;
+		private int hour;
+		private String code;
+		private int frequency;
+
+		public Builder() {
+		}
+
+		public Builder name(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Builder hour(int hour) {
+			this.hour = hour;
+			return this;
+		}
+		
+		public Builder code(String code) {
+			this.code = code;
+			return this;
+		}
+		
+		public Builder frequency(int frequency) {
+			this.frequency = frequency;
+			return this;
+		}
+
+		public Matter build() {
+			return new Matter(this);
+		}
+
 	}
 
 	public Long getId() {
@@ -73,11 +110,11 @@ public class Matter implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
+
 	public int getFrequency() {
 		return frequency;
 	}
-	
+
 	public void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
@@ -106,7 +143,5 @@ public class Matter implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

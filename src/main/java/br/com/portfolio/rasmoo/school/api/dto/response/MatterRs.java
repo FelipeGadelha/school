@@ -1,6 +1,12 @@
 package br.com.portfolio.rasmoo.school.api.dto.response;
 
-public class MatterRs {
+import java.io.Serializable;
+
+import org.springframework.hateoas.RepresentationModel;
+
+public class MatterRs extends RepresentationModel<MatterRs> implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String name;
 	private int hour;

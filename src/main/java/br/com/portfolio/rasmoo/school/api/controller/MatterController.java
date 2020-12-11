@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,12 @@ public class MatterController {
 	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid MatterRq matterRq) {
-		return new ResponseEntity<>(matterService.save(matterRq), HttpStatus.CREATED);
+		return new ResponseEntity<>(matterService.save(matterRq)
+					.add(
+						Link.of("/api/school/v1/matter"), 
+						Link.of("/v1/matter")
+						), 
+				HttpStatus.CREATED);
 
 		//		Matter matter = toEntity(matterRq);
 //		try {
