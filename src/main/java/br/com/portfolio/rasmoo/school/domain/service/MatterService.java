@@ -10,9 +10,13 @@ import br.com.portfolio.rasmoo.school.domain.projection.MatterProjection;
 public interface MatterService {
 	
 	List<MatterProjection> findAllMatter();
+
+	List<MatterRs> findAll();
 	
 	MatterProjection findByIdMatter(Long id);
 	
+	MatterRs findById(Long id);
+
 	MatterRs save(MatterRq matterRq);
 	
 	MatterRs update(MatterUpdateRq matterUpdateRq);

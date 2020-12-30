@@ -1,11 +1,15 @@
 package br.com.portfolio.rasmoo.school.api.controller;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.portfolio.rasmoo.school.api.dto.request.MatterRq;
 import br.com.portfolio.rasmoo.school.api.dto.request.MatterUpdateRq;
-import br.com.portfolio.rasmoo.school.domain.projection.MatterProjection;
+import br.com.portfolio.rasmoo.school.api.dto.response.MatterRs;
+import br.com.portfolio.rasmoo.school.api.dto.response.MattersRs;
 import br.com.portfolio.rasmoo.school.domain.service.MatterService;
 
 @RestController
@@ -34,46 +39,59 @@ public class MatterController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MatterProjection>> findAll() {
+	public ResponseEntity<MattersRs> findAll() {
+		
+		MattersRs allMatter = new MattersRs(matterService.findAll()
+				.stream().map(entity -> entity.add(
+					linkTo(methodOn(this.getClass()).findById(entity.getId())).withRel("findById"),
+					linkTo(methodOn(this.getClass()).update(new MatterUpdateRq())).withRel("update"),
+					linkTo(methodOn(this.getClass()).delete(entity.getId())).withRel("delete"))
+					).collect(Collectors.toList()));
+		
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(matterService.findAllMatter());
+				.body(allMatter.add(
+						linkTo(methodOn(this.getClass()).save(new MatterRq())).withRel("save")
+						));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-		return ResponseEntity.status(HttpStatus.OK).body(matterService.findByIdMatter(id));
+		MatterRs matterRs = matterService.findById(id);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(matterRs.add(
+						linkTo(methodOn(this.getClass()).findAll()).withRel(LinkRelation.of("findAll")),
+						linkTo(methodOn(this.getClass()).update(new MatterUpdateRq())).withRel("update"),
+						linkTo(methodOn(this.getClass()).delete(matterRs.getId())).withRel("delete"))
+						);
+								
 	}
 	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid MatterRq matterRq) {
-		return new ResponseEntity<>(matterService.save(matterRq)
+		MatterRs matterRs = matterService.save(matterRq);
+
+		return new ResponseEntity<>(matterRs
 					.add(
-						Link.of("/api/school/v1/matter"), 
-						Link.of("/v1/matter")
+						linkTo(methodOn(this.getClass()).findAll()).withRel(LinkRelation.of("findAll")),
+						linkTo(methodOn(this.getClass()).findById(matterRs.getId())).withRel("findById"),
+						linkTo(methodOn(this.getClass()).update(new MatterUpdateRq())).withRel("update"),
+						linkTo(methodOn(this.getClass()).delete(matterRs.getId())).withRel("delete")
 						), 
 				HttpStatus.CREATED);
-
-		//		Matter matter = toEntity(matterRq);
-//		try {
-//			MatterRs save = toDto(matterRepository.save(matter));
-//			return new ResponseEntity<>(save, HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
 	}
 	
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody @Valid MatterUpdateRq matterUpdateRq) {
-		return new ResponseEntity<>(matterService.update(matterUpdateRq), HttpStatus.OK);
-		
-//		Matter matter = toEntityUpdate(matterUpdateRq);
-//		try {
-//			MatterRs save = toDto(matterRepository.save(matter));
-//			return new ResponseEntity<>(save, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
+		MatterRs matterRs = matterService.update(matterUpdateRq);
+		matterRs.add(
+				linkTo(methodOn(this.getClass()).findAll()).withRel(LinkRelation.of("findAll")),
+				linkTo(methodOn(this.getClass()).findById(matterRs.getId())).withRel("findById"),
+				linkTo(methodOn(this.getClass()).save(new MatterRq())).withRel("save"),
+				linkTo(methodOn(this.getClass()).delete(matterRs.getId())).withRel("delete")
+				);
+		return new ResponseEntity<>(matterRs, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -109,6 +127,26 @@ public class MatterController {
 //		} catch (Exception e) {
 //			return ResponseEntity.badRequest().body(e.getMessage());
 //		}
+//		teste
+//		return actors.stream()
+//		    		.map(actor -> ActorModel.builder()
+//		    				.id(actor.getId())
+//		    				.firstName(actor.getFirstName())
+//				            .lastName(actor.getLastName())
+//				            .build()
+//				            .add(linkTo(
+//				                    methodOn(WebController.class)
+//				                    .getActorById(actor.getId()))
+//				                    .withSelfRel()))
+//				    .collect(Collectors.toList());
+//				}
+//	
+//	
+//	
 //	}
+	public Link name() {
+		return linkTo(methodOn(this.getClass()).findAll()).withRel(LinkRelation.of("findAll"));
+		
+	}
 	
 }

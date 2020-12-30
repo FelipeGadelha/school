@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,10 +55,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		List<FieldError> field = exception.getBindingResult().getFieldErrors();
+		List<FieldError> fieldErros = exception.getBindingResult().getFieldErrors();
+		List<ObjectError> globalErrors = exception.getBindingResult().getGlobalErrors();		
 
-		Map<String, Set<String>> map = field.stream().collect(Collectors.groupingBy(FieldError::getField,
+		Map<String, Set<String>> map = fieldErros.stream().collect(Collectors.groupingBy(FieldError::getField,
 				Collectors.mapping(FieldError::getDefaultMessage, Collectors.toSet())));
+		
+		if (map.isEmpty()) {
+    		map = globalErrors.stream().collect(Collectors.groupingBy(ObjectError::getCode,
+    				Collectors.mapping(ObjectError::getDefaultMessage, Collectors.toSet())));			
+		}
 
 		return new ResponseEntity<>(ValidationExceptionDetails.builder()
 				.timestamp(OffsetDateTime.now())
@@ -65,7 +72,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 				.title("Bad Request Exception")
 				.details("Check the error field(s)")
 				.developerMessage(exception.getClass().getName())
-				.fieldError(map)
+				.errors(map)
 				.build(), HttpStatus.BAD_REQUEST);
 	}
 
@@ -73,7 +80,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleExceptionInternal(
 			Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		System.out.println(status.name());
 //		InvalidDataAccessApiUsageException
 		return new ResponseEntity<>(ExceptionDetails.builder()
 				.timestamp(OffsetDateTime.now())

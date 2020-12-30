@@ -1,6 +1,9 @@
 package br.com.portfolio.rasmoo.school.domain.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +44,31 @@ public class MatterServiceImpl implements MatterService{
 		return matterRepository.findAllMatter();
 	}
 	
-	@Cacheable(key = "#id")
+	@Cacheable("#id")
 	@Override
 	public MatterProjection findByIdMatter(Long id) {
 		return matterRepository.findByIdMatter(id)
 				.orElseThrow(() -> new NotFoundException("Matter not Found"));
 	}
+	
+	@CachePut(unless = "#result.size()<3")
+	@Override
+	public List<MatterRs> findAll() {
+		return matterRepository.findAll().stream()
+				.map(this::toDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Cacheable(key = "#id")
+	@Override
+	public MatterRs findById(Long id) {
+		return matterRepository.findById(id)
+				.map(entity -> this.toDto(entity))
+				.orElseThrow(() -> new NotFoundException("Matter not Found"));
+	}
 
 	@CacheEvict(value = "findAllMatter", allEntries = true)
+	@Transactional
 	@Override
 	public MatterRs save(MatterRq matterRq) {
 		Matter matter = toEntity(matterRq);
@@ -60,6 +80,7 @@ public class MatterServiceImpl implements MatterService{
 		}
 	}
 	
+	@Transactional
 	@Override
 	public MatterRs update(MatterUpdateRq matterUpdateRq) {
 		if (!matterRepository.existsById(matterUpdateRq.getId()))
@@ -70,6 +91,7 @@ public class MatterServiceImpl implements MatterService{
 	}
 	
 //	@CacheEvict(key = "#id")
+	@Transactional
 	@Override
 	public void delete(Long id) {
 		try {
@@ -90,7 +112,6 @@ public class MatterServiceImpl implements MatterService{
 	private MatterRs toDto(Matter matter) {
 		return mapper.map(matter, MatterRs.class);
 	}
-
 	
 
 }

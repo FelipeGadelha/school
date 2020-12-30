@@ -22,12 +22,12 @@ public class Mock  implements ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
-		matterRepository.save(new Matter.Builder().name("ajhklhl").hour(112).code("asada").frequency(1).build());
-		matterRepository.save(new Matter.Builder().name("s").hour(112).code("gfdg").frequency(1).build());
-		matterRepository.save(new Matter.Builder().name("d").hour(112).code("bvc").frequency(1).build());
-		matterRepository.save(new Matter.Builder().name("f").hour(112).code("bjmg").frequency(1).build());
-		matterRepository.save(new Matter.Builder().name("g").hour(112).code("kjyfk").frequency(1).build());
-		matterRepository.save(new Matter.Builder().name("g").hour(112).code("fgf").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("ANALISE DE DADOS").hour(112).code("ADD").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("PROGRAMAÇÂO ORIENTADA A OBJETOS").hour(112).code("POO").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("TOPICOS DESIGN PATTERNS").hour(112).code("TDP").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("CONCEITOS DE SOLID").hour(112).code("CDS").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("ESTRUTURA DE DADOS").hour(112).code("EDD").frequency(1).build());
+		matterRepository.save(new Matter.Builder().name("BANCO DE DADOS").hour(112).code("BDD").frequency(1).build());
 		
 	}
 
